@@ -315,7 +315,11 @@ def run_server(host, port):
         print(f"server running on {host}, {port}")
         while True:
             client_socket, client_address = server_socket.accept()
-            handle_client_connection(client_socket, client_address)
+            client_handler = threading.Thread(
+                target=handle_client_connection,
+                args=(client_socket, client_address) 
+            )
+            client_handler.start()
     except KeyboardInterrupt:
         print("server shutting down")
     finally:
